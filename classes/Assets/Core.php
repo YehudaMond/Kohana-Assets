@@ -169,6 +169,31 @@ class Assets_Core {
 			'src'    => $src,
 			'deps'   => (array) $deps,
 			'footer' => $footer,
+			'block'  => FALSE,
+		);
+	}
+	
+	/**
+	 * Adds a block of Javascript
+	 *
+	 * @param   mixed    Asset name if `string`, sets `$footer` if boolean
+	 * @param   string   Asset source
+	 * @param   mixed    Dependencies
+	 * @param   bool     Whether to show in header or footer
+	 * @return  mixed    Setting returns asset array, getting returns asset HTML
+	 */
+	public static function js_block($handle, $src = NULL, $deps = NULL, $footer = FALSE)
+	{
+		if ($src === NULL)
+		{
+			return Assets::get_js($handle);
+		}
+		
+		return Assets::$js[$handle] = array(
+			'src'    => $src,
+			'deps'   => (array) $deps,
+			'footer' => $footer,
+			'block'  => TRUE,
 		);
 	}
 	
@@ -186,8 +211,14 @@ class Assets_Core {
 		}
 		
 		$asset = Assets::$js[$handle];
-		
-		return HTML::script($asset['src']);
+		if ($asset['block'])
+		{
+			return "<script>\n".$asset['src']."\n</script>\n";
+		}
+		else
+		{
+			return HTML::script($asset['src']);
+		}
 	}
 	
 	/**
