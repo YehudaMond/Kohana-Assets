@@ -182,7 +182,7 @@ class Assets_Core {
 	 * @param   bool     Whether to show in header or footer
 	 * @return  mixed    Setting returns asset array, getting returns asset HTML
 	 */
-	public static function js_block($handle, $src = NULL, $deps = NULL, $footer = FALSE)
+	public static function js_block($handle, $src = NULL, $deps = NULL, $footer = FALSE, $params = array())
 	{
 		if ($src === NULL)
 		{
@@ -194,6 +194,7 @@ class Assets_Core {
 			'deps'   => (array) $deps,
 			'footer' => $footer,
 			'block'  => TRUE,
+			'params' => $params,
 		);
 	}
 	
@@ -213,7 +214,8 @@ class Assets_Core {
 		$asset = Assets::$js[$handle];
 		if ($asset['block'])
 		{
-			return "<script>\n".$asset['src']."\n</script>\n";
+			$id = isset($asset['params']['id'])?'id="'.$asset['params']['id'].'"':'';
+			return "<script {$id}>\n".$asset['src']."\n</script>\n";
 		}
 		else
 		{
