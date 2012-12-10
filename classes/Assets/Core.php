@@ -214,7 +214,7 @@ class Assets_Core {
 		$asset = Assets::$js[$handle];
 		if ($asset['block'])
 		{
-			$id = isset($asset['params']['id'])?'id="'.$asset['params']['id'].'"':'';
+			$id = isset($asset['params']['id'])?('id="'.$asset['params']['id'].'"'):'';
 			return "<script {$id}>\n".$asset['src']."\n</script>\n";
 		}
 		else
